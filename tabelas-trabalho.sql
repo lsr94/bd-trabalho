@@ -1,3 +1,6 @@
+--sugestão de sequência de criação das tabelas para não gerar conflito: central, satélite, satélite comunicação, satélite obs-met, leitura, localização,
+--funcionário, pertence, consulta, usuário, antena, modem, conecta
+
 CREATE TABLE antena (
 	idAntena DECIMAL(3) PRIMARY KEY,
 	idSatelite_Com DECIMAL(3),
