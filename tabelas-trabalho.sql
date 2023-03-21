@@ -6,14 +6,17 @@ DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 
 CREATE TABLE CENTRAL (
-
+	idCentral INTEGER PRIMARY KEY,
+	qntdeFuncionarios INTEGER NOT NULL,
+	cidade VARCHAR(30),
+	tipoTrabalho VARCHAR(15) NOT NULL,
 );
 
 CREATE TABLE SATELITE(
   idSatelite INTEGER PRIMARY KEY,
   idCentral INTEGER,
-  nome VARCHAR(20),
-  dataLancamento DATE,
+  nome VARCHAR(20) NOT NULL,
+  dataLancamento DATE NOT NULL,
   CONSTRAINT fk_idCentral FOREIGN KEY (idCentral) REFERENCES CENTRAL (idCentral)
 );
 
@@ -52,7 +55,8 @@ create table LOCALIZACAO(
 );
 
 CREATE TABLE FUNCIONARIO (
-
+	idFuncionario INTEGER PRIMARY KEY,
+	nome VARCHAR(70) NOT NULL
 );
 
 CREATE TABLE PERTENCE (
