@@ -10,8 +10,11 @@ CREATE TABLE CENTRAL (
 );
 
 CREATE TABLE SATELITE(
-  idSatelite INTEGER PRIMARY KEY
-  -- falta completar!
+  idSatelite INTEGER PRIMARY KEY,
+  idCentral INTEGER,
+  nome VARCHAR(20),
+  dataLancamento DATE,
+  CONSTRAINT fk_idCentral FOREIGN KEY (idCentral) REFERENCES CENTRAL (idCentral)
 );
 
 CREATE TABLE SATELITECOMUNICACAO (
@@ -37,8 +40,15 @@ CREATE TABLE LEITURA(
   PRIMARY KEY (idSateliteObsM, data_leitura, horario)
 );
 
-CREATE TABLE LOCALIZACAO (
-
+create table LOCALIZACAO(
+  idSatelite INTEGER PRIMARY KEY,
+  data DATE PRIMARY KEY,
+  horario TIME PRIMARY KEY,
+  coordX DECIMAL(6,2) PRIMARY KEY,
+  coordY DECIMAL(6,2) PRIMARY KEY,
+  coordZ DECIMAL(6,2) PRIMARY KEY,
+  CONSTRAINT fk_idSatelite FOREIGN KEY (idSatelite) REFERENCES SATELITE (idSatelite)
+  CONSTRAINT PRIMARY KEY (idSatelite, data, horario, coordX, coordY, coordZ)
 );
 
 CREATE TABLE FUNCIONARIO (
