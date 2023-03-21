@@ -6,10 +6,10 @@ DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 
 CREATE TABLE CENTRAL (
-	idCentral INTEGER PRIMARY KEY,
-	qntdeFuncionarios INTEGER NOT NULL,
-	cidade VARCHAR(30),
-	tipoTrabalho VARCHAR(15) NOT NULL,
+  idCentral INTEGER PRIMARY KEY,
+  qntdeFuncionarios INTEGER NOT NULL,
+  cidade VARCHAR(30),
+  tipoTrabalho VARCHAR(15) NOT NULL
 );
 
 CREATE TABLE SATELITE(
@@ -37,67 +37,67 @@ CREATE TABLE LEITURA(
   data_leitura DATE,
   horario TIME,
   temperaturaC DECIMAL(5,5),
-  umidade_porc DECIMAL(3,5),
+  umidade_porc DECIMAL(5,3),
   imagem bytea,
   CONSTRAINT fk_idSateliteObsM FOREIGN KEY (idSateliteObsM) REFERENCES SateliteObsMet (idSatelite),
   PRIMARY KEY (idSateliteObsM, data_leitura, horario)
 );
 
-create table LOCALIZACAO(
-  idSatelite INTEGER PRIMARY KEY,
-  data DATE PRIMARY KEY,
-  horario TIME PRIMARY KEY,
-  coordX DECIMAL(6,2) PRIMARY KEY,
-  coordY DECIMAL(6,2) PRIMARY KEY,
-  coordZ DECIMAL(6,2) PRIMARY KEY,
+CREATE TABLE LOCALIZACAO(
+  idSatelite INTEGER,
+  data_loc DATE,
+  horario TIME,
+  coordX DECIMAL(6,2),
+  coordY DECIMAL(6,2),
+  coordZ DECIMAL(6,2),
+  CONSTRAINT pk_todas PRIMARY KEY (idSatelite, data_loc, horario, coordX, coordY, coordZ),
   CONSTRAINT fk_idSatelite FOREIGN KEY (idSatelite) REFERENCES SATELITE (idSatelite)
-  CONSTRAINT PRIMARY KEY (idSatelite, data, horario, coordX, coordY, coordZ)
 );
 
 CREATE TABLE FUNCIONARIO (
-	idFuncionario INTEGER PRIMARY KEY,
-	nome VARCHAR(70) NOT NULL
+  idFuncionario INTEGER PRIMARY KEY,
+  nome VARCHAR(70) NOT NULL
 );
 
 CREATE TABLE PERTENCE (
-	idCentral INTEGER NOT NULL,
-	idFuncionario INTEGER NOT NULL,
-	CONSTRAINT pk_todas PRIMARY KEY (idCentral, idFuncionario)
-	CONSTRAINT fk_idCentral FOREIGN KEY (idCentral) REFERENCES CENTRAL (idCentral),
-	CONSTRAINT fk_idFuncionario FOREIGN KEY (idFuncionario) REFERENCES FUNCIONARIO (idFuncionario)
+  idCentral INTEGER NOT NULL,
+  idFuncionario INTEGER NOT NULL,
+  CONSTRAINT pk_todas2 PRIMARY KEY (idCentral, idFuncionario),
+  CONSTRAINT fk_idCentral FOREIGN KEY (idCentral) REFERENCES CENTRAL (idCentral),
+  CONSTRAINT fk_idFuncionario FOREIGN KEY (idFuncionario) REFERENCES FUNCIONARIO (idFuncionario)
 );
 
 CREATE TABLE USUARIO (
-  	idUsuario INTEGER PRIMARY KEY,
-	nome VARCHAR(70) NOT NULL,
-	senha VARCHAR(15) NOT NULL,
-	velocidadeUpLink DECIMAL (5,3) NOT NULL,
-	velocidadeDownLink DECIMAL (5,3) NOT NULL
+  idUsuario INTEGER PRIMARY KEY,
+  nome VARCHAR(70) NOT NULL,
+  senha VARCHAR(15) NOT NULL,
+  velocidadeUpLink DECIMAL (5,3) NOT NULL,
+  velocidadeDownLink DECIMAL (5,3) NOT NULL
 );
 
 CREATE TABLE CONSULTA (
-	data DATE NOT NULL,
-	horario TIME NOT NULL,
-	idFuncionario INTEGER NOT NULL,
-	idSatelite INTEGER NOT NULL,
-	CONSTRAINT pk_todas PRIMARY KEY (data, horario, idFuncionario, idSatelite),
-	CONSTRAINT fk_idFuncionario FOREIGN KEY (idFuncionario) REFERENCES FUNCIONARIO (idFuncionario),
-	CONSTRAINT fk_idSatelite FOREIGN KEY (idSatelite) REFERENCES SATELITE (idSatelite)
+  data DATE NOT NULL,
+  horario TIME NOT NULL,
+  idFuncionario INTEGER NOT NULL,
+  idSatelite INTEGER NOT NULL,
+  CONSTRAINT pk_todas3 PRIMARY KEY (data, horario, idFuncionario, idSatelite),
+  CONSTRAINT fk_idFuncionario FOREIGN KEY (idFuncionario) REFERENCES FUNCIONARIO (idFuncionario),
+  CONSTRAINT fk_idSatelite FOREIGN KEY (idSatelite) REFERENCES SATELITE (idSatelite)
 );
   
 CREATE TABLE ANTENA (
-	idAntena INTEGER PRIMARY KEY,
-	idSatelite_Com INTEGER NOT NULL,
-	chaveDescrip CHAR(20) NOT NULL, 
-	CONSTRAINT fk_idSatelite_Com FOREIGN KEY (idSatelite_Com) REFERENCES SATELITECOMUNICACAO (idSatelite)
+  idAntena INTEGER PRIMARY KEY,
+  idSatelite_Com INTEGER NOT NULL,
+  chaveDescrip CHAR(20) NOT NULL, 
+  CONSTRAINT fk_idSatelite_Com FOREIGN KEY (idSatelite_Com) REFERENCES SATELITECOMUNICACAO (idSatelite)
 );
 
 CREATE TABLE MODEM (
-	idModem INTEGER PRIMARY KEY,
-	idAntena INTEGER NOT NULL,
-	nomeRede VARCHAR(30) NOT NULL,
-	senhaRede VARCHAR(15) NOT NULL,
-	CONSTRAINT fk_idAntena FOREIGN KEY (idAntena) REFERENCES ANTENA (idAntena)
+  idModem INTEGER PRIMARY KEY,
+  idAntena INTEGER NOT NULL,
+  nomeRede VARCHAR(30) NOT NULL,
+  senhaRede VARCHAR(15) NOT NULL,
+  CONSTRAINT fk_idAntena FOREIGN KEY (idAntena) REFERENCES ANTENA (idAntena)
 );
 
 CREATE TABLE CONECTA(
