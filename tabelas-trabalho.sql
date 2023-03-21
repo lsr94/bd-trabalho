@@ -33,14 +33,14 @@ CREATE TABLE SATELITEOBSMET(
 );
 
 CREATE TABLE LEITURA(
-  idSateliteObsM iNTEGER,
+  idSateliteObsM INTEGER,
   data_leitura DATE,
   horario TIME,
   temperaturaC DECIMAL(5,5),
   umidade_porc DECIMAL(5,3),
   imagem bytea,
-  CONSTRAINT fk_idSateliteObsM FOREIGN KEY (idSateliteObsM) REFERENCES SateliteObsMet (idSatelite),
-  PRIMARY KEY (idSateliteObsM, data_leitura, horario)
+  CONSTRAINT pk_todas PRIMARY KEY (idSateliteObsM, data_leitura, horario),
+  CONSTRAINT fk_idSateliteObsM FOREIGN KEY (idSateliteObsM) REFERENCES SateliteObsMet (idSatelite)
 );
 
 CREATE TABLE LOCALIZACAO(
@@ -50,7 +50,7 @@ CREATE TABLE LOCALIZACAO(
   coordX DECIMAL(6,2),
   coordY DECIMAL(6,2),
   coordZ DECIMAL(6,2),
-  CONSTRAINT pk_todas PRIMARY KEY (idSatelite, data_loc, horario, coordX, coordY, coordZ),
+  CONSTRAINT pk_todas2 PRIMARY KEY (idSatelite, data_loc, horario, coordX, coordY, coordZ),
   CONSTRAINT fk_idSatelite FOREIGN KEY (idSatelite) REFERENCES SATELITE (idSatelite)
 );
 
@@ -62,7 +62,7 @@ CREATE TABLE FUNCIONARIO (
 CREATE TABLE PERTENCE (
   idCentral INTEGER NOT NULL,
   idFuncionario INTEGER NOT NULL,
-  CONSTRAINT pk_todas2 PRIMARY KEY (idCentral, idFuncionario),
+  CONSTRAINT pk_todas3 PRIMARY KEY (idCentral, idFuncionario),
   CONSTRAINT fk_idCentral FOREIGN KEY (idCentral) REFERENCES CENTRAL (idCentral),
   CONSTRAINT fk_idFuncionario FOREIGN KEY (idFuncionario) REFERENCES FUNCIONARIO (idFuncionario)
 );
@@ -71,8 +71,8 @@ CREATE TABLE USUARIO (
   idUsuario INTEGER PRIMARY KEY,
   nome VARCHAR(70) NOT NULL,
   senha VARCHAR(15) NOT NULL,
-  velocidadeUpLink DECIMAL (5,3) NOT NULL,
-  velocidadeDownLink DECIMAL (5,3) NOT NULL
+  velocidadeUpLink DECIMAL (5,2) NOT NULL,
+  velocidadeDownLink DECIMAL (5,2) NOT NULL
 );
 
 CREATE TABLE CONSULTA (
@@ -80,7 +80,7 @@ CREATE TABLE CONSULTA (
   horario TIME NOT NULL,
   idFuncionario INTEGER NOT NULL,
   idSatelite INTEGER NOT NULL,
-  CONSTRAINT pk_todas3 PRIMARY KEY (data, horario, idFuncionario, idSatelite),
+  CONSTRAINT pk_todas4 PRIMARY KEY (data, horario, idFuncionario, idSatelite),
   CONSTRAINT fk_idFuncionario FOREIGN KEY (idFuncionario) REFERENCES FUNCIONARIO (idFuncionario),
   CONSTRAINT fk_idSatelite FOREIGN KEY (idSatelite) REFERENCES SATELITE (idSatelite)
 );
