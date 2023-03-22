@@ -1,3 +1,4 @@
+--CONSULTA SIMPLES
 -- 1. Encontre todos os satélites que estão conectados a uma central ‘x’. 
 
 -- 2. Encontre todas as centrais que realizam ‘pesquisa’.
@@ -10,3 +11,13 @@ SELECT * FROM SATELITE WHERE datalancamento <= '31-12-2010';
 SELECT chaveCripto FROM SATELITECOMUNICACAO;
 
 -- 5. Encontre todos os funcionários da central ‘x’.
+
+--CONSULTAS COMPLEXAS
+-- 1. Encontre o nome e o número de identificação de todos os satélites de observação que foram lançados nos últimos 5 anos.
+SELECT sateliteobsmet.idsatelite, satelite.nome FROM SATELITE, SATELITEOBSMET WHERE satelite.datalancamento BETWEEN '22-03-2018' AND '22-03-2023' AND 
+satelite.idsatelite = sateliteobsmet.idsatelite;
+
+-- 2. Encontre o nome e o número de identificação de todos os satélites de comunicação que possuem uma velocidade de DownLink maior que 100 Mbps.
+
+
+-- 3. Encontre o nome e a posição espacial de todos os satélites de observação que registraram uma temperatura acima de 30 graus Celsius nas últimas 24 horas.
