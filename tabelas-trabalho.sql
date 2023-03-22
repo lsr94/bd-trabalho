@@ -7,16 +7,17 @@ CREATE SCHEMA public;
 
 CREATE TABLE CENTRAL(
   idCentral INTEGER PRIMARY KEY,
-  qntdeFuncionarios INTEGER NOT NULL,
   cidade VARCHAR(30),
-  tipoTrabalho VARCHAR(30) NOT NULL
+  tipoTrabalho VARCHAR(30) NOT NULL,
+  qntdeFuncionarios INTEGER NOT NULL
+  
 );
 
 CREATE TABLE SATELITE(
   idSatelite INTEGER PRIMARY KEY,
   idCentral INTEGER,
   nome VARCHAR(20) NOT NULL,
-  dataLancamento DATE NOT NULL,
+  dataLancamento TIMESTAMP NOT NULL,
   CONSTRAINT fk_idCentral FOREIGN KEY (idCentral) REFERENCES CENTRAL (idCentral)
 );
 
@@ -34,23 +35,21 @@ CREATE TABLE SATELITEOBSMET(
 
 CREATE TABLE LEITURA(
   idSateliteObsM INTEGER,
-  data_leitura DATE,
-  horario TIME,
+  data_leitura TIMESTAMP,
   temperaturaC DECIMAL(5,2),
   umidade_porc DECIMAL(5,3),
   imagem bytea,
-  CONSTRAINT pk_todas PRIMARY KEY (idSateliteObsM, data_leitura, horario),
+  CONSTRAINT pk_todas PRIMARY KEY (idSateliteObsM, data_leitura),
   CONSTRAINT fk_idSateliteObsM FOREIGN KEY (idSateliteObsM) REFERENCES SateliteObsMet (idSatelite)
 );
 
 CREATE TABLE LOCALIZACAO(
   idSatelite INTEGER,
-  data_loc DATE,
-  horario TIME,
+  data_loc TIMESTAMP,
   coordX DECIMAL(6,3),
   coordY DECIMAL(6,3),
   coordZ DECIMAL(6,3),
-  CONSTRAINT pk_todas2 PRIMARY KEY (idSatelite, data_loc, horario, coordX, coordY, coordZ),
+  CONSTRAINT pk_todas2 PRIMARY KEY (idSatelite, data_loc, coordX, coordY, coordZ),
   CONSTRAINT fk_idSatelite FOREIGN KEY (idSatelite) REFERENCES SATELITE (idSatelite)
 );
 
@@ -76,11 +75,10 @@ CREATE TABLE USUARIO (
 );
 
 CREATE TABLE CONSULTA (
-  data DATE NOT NULL,
-  horario TIME NOT NULL,
+  data TIMESTAMP NOT NULL,
   idFuncionario INTEGER NOT NULL,
   idSatelite INTEGER NOT NULL,
-  CONSTRAINT pk_todas4 PRIMARY KEY (data, horario, idFuncionario, idSatelite),
+  CONSTRAINT pk_todas4 PRIMARY KEY (data, idFuncionario, idSatelite),
   CONSTRAINT fk_idFuncionario FOREIGN KEY (idFuncionario) REFERENCES FUNCIONARIO (idFuncionario),
   CONSTRAINT fk_idSatelite FOREIGN KEY (idSatelite) REFERENCES SATELITE (idSatelite)
 );
@@ -109,7 +107,7 @@ CREATE TABLE CONECTA(
 );
 
 --INSERTS:
-INSERT INTO CENTRAL(idCentral, cidade, tipoTrabalho, qntdeFuncionarios) 
+INSERT INTO CENTRAL
     VALUES  (1, 'São Carlos', 'Central de Pesquisa', 3),
             (2, 'São Paulo', 'Central de Monitoramento', 1),
             (3, 'Rio de Janeiro', 'Central de Monitoramento', 1),
@@ -140,25 +138,26 @@ INSERT INTO SATELITEOBSMET
 	    (897, 899.711);
 
 INSERT INTO LEITURA
-    VALUES  (456, '01/01/2023', '01:01:01', 032.56, 76.555, '0101010001'),
-            (259, '07/26/2022', '22:35:41', 021.11, 59.999, '1101011001'),
-            (456, '03/06/2022', '05:02:15', 032.56, 76.555, '0101010011'),
-            (259, '04/07/2022', '13:51:23', 021.11, 59.999, '1111010001'),
-            (456, '12/25/2023', '18:24:14', 032.56, 76.555, '0110000001'),
-            (897, '01/06/2005', '13:10:17', 029.44, 62.000, '0000011110'),
-            (897, '01/06/2006', '09:58:27', 029.44, 62.000, '0000011111');
-INSERT INTO LEITURA VALUES (456, '22/03/2023', '15:15:02', 032.56, 76.555, '0101010000'),
-			   (456, '23/03/2023', '18:18:18', 032.56, 76.555, '0101010010');
+    VALUES  (456, '2023-01-01 01:01:01-03', 032.56, 76.555, '0101010001'),
+            (259, '2022-07-03 22:35:41-03', 021.11, 59.999, '1101011001'),
+            (456, '2022-03-06 05:02:15-03', 032.56, 76.555, '0101010011'),
+            (259, '2022-04-07 13:51:23-03', 021.11, 59.999, '1111010001'),
+            (456, '2023-12-25 18:24:14-03', 032.56, 76.555, '0110000001'),
+            (897, '2005-01-06 13:10:17-03', 029.44, 62.000, '0000011110'),
+            (897, '2006-01-06 09:58:27-03', 029.44, 62.000, '0000011111'),
+	    (456, '2023-03-23 15:15:02-03', 032.56, 76.555, '0101010000'),
+	    (456, '2023-03-22 18:18:18-03', 032.56, 76.555, '0101010010'),
+	    (897, '2023-03-23 14:15:02-03', 035.56, 76.555, '0101010000');
 
 INSERT INTO LOCALIZACAO
-    VALUES  (735, '03/21/2023', '03:33:45', -22.145, -47.886, 95.645),
-            (735, '02/21/2023', '23:02:31', -22.145, -47.886, 95.645),
-            (944, '06/25/2023', '15:27:59', 45.862, 98.200, 87.452),
-            (735, '04/07/2023', '13:26:12', -78.169, 166.258, 85.519),
-            (735, '03/21/2023', '09:48:20', 26.654, -13.984, 100.000);
-INSERT INTO LOCALIZACAO VALUES (456, '20/03/2023', '22:05:28', 30.588, 35.895, 59.666);
+    VALUES  (735, '2023-03-21 03:33:45-03', -22.145, -47.886, 95.645),
+            (735, '2023-02-21 23:02:31-03', -22.145, -47.886, 95.645),
+            (944, '2023-06-25 15:27:59-03', 45.862, 98.200, 87.452),
+            (735, '2023-04-07 13:26:12-03', -78.169, 166.258, 85.519),
+            (735, '2023-03-21 09:48:20-03', 26.654, -13.984, 100.000),
+            (456, '2023-03-20 22:05:28-03', 30.588, 35.895, 59.666);
 
-INSERT INTO FUNCIONARIO(idFuncionario, nome) 
+INSERT INTO FUNCIONARIO 
     VALUES  ('1', 'Alberto Braga'),
             ('2', 'Carlos Dollabela'),
             ('3', 'Elisa Fernandes'),
@@ -168,7 +167,7 @@ INSERT INTO FUNCIONARIO(idFuncionario, nome)
             ('7', 'Maria de Nobrega'),
             ('8', 'Olivia de Paula');
 
-INSERT INTO PERTENCE (idcentral, idfuncionario)
+INSERT INTO PERTENCE
     VALUES  (3, 1),
             (1, 2),
             (2, 3),
@@ -186,13 +185,13 @@ INSERT INTO USUARIO
             (231177, 'Danny', 'gaming398347', 100.76, 200.00);          
         
 INSERT INTO CONSULTA
-    VALUES  ('03/22/2023', '10:15:33', 4, 735),
-            ('02/22/2023', '16:36:21', 4, 735),
-            ('07/31/2022', '14:01:39', 1, 456),
-            ('05/05/2022', '11:28:46', 2, 032),
-            ('08/10/2022', '20:20:20', 3, 259),    
-	    ('09/09/2009', '18:18:25', 3, 897),
-	    ('01/05/2012', '07:05:14', 7, 999);
+    VALUES  ('2023-03-22 10:15:33-03', 4, 735),
+            ('2023-02-22 16:36:21-03', 4, 735),
+            ('2022-07-31 14:01:39-03', 1, 456),
+            ('2022-05-05 11:28:46-03', 2, 032),
+            ('2022-08-10 20:20:20-03', 3, 259),    
+	    ('2009-09-09 18:18:25-03', 3, 897),
+	    ('2012-01-05 07:05:14-03', 7, 999);
         
 INSERT INTO ANTENA
     VALUES  (8731, 735, '53oi-=3kjd?=elmç2dsf'),
@@ -214,4 +213,4 @@ INSERT INTO CONECTA
             (185102511, 107135),
             (921482091, 253249),
             (431571430, 231177),
-            (1651892321, 216129);                   
+            (1651892321, 216129); 
