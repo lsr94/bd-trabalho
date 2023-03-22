@@ -75,10 +75,10 @@ CREATE TABLE USUARIO (
 );
 
 CREATE TABLE CONSULTA (
-  data TIMESTAMP NOT NULL,
+  data_consulta TIMESTAMP NOT NULL,
   idFuncionario INTEGER NOT NULL,
   idSatelite INTEGER NOT NULL,
-  CONSTRAINT pk_todas4 PRIMARY KEY (data, idFuncionario, idSatelite),
+  CONSTRAINT pk_todas4 PRIMARY KEY (data_consulta, idFuncionario, idSatelite),
   CONSTRAINT fk_idFuncionario FOREIGN KEY (idFuncionario) REFERENCES FUNCIONARIO (idFuncionario),
   CONSTRAINT fk_idSatelite FOREIGN KEY (idSatelite) REFERENCES SATELITE (idSatelite)
 );
