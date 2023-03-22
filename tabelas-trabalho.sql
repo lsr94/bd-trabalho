@@ -125,8 +125,8 @@ INSERT INTO SATELITE
             (944, 2, 'Teegarden', '03/23/2021'),
             (456, 3, 'Andromeda', '07/16/2021'),
             (259, 1, 'Altair', '12/09/2020'),
-			      (897, 8, 'Capella', '01/05/2005'),
-			      (999, 7, 'Deneb', '04/09/2010');
+	    (897, 8, 'Capella', '01/05/2005'),
+	    (999, 7, 'Deneb', '04/09/2010');
 
 INSERT INTO SATELITECOMUNICACAO
     VALUES  (735, '53oi-=3kjd?=elmç2dsf'),
@@ -137,7 +137,7 @@ INSERT INTO SATELITECOMUNICACAO
 INSERT INTO SATELITEOBSMET
     VALUES  (456, 4350.6352),
             (259, 1256.3871),
-			      (897, 899.711);
+	    (897, 899.711);
 
 INSERT INTO LEITURA
     VALUES  (456, '01/01/2023', '01:01:01', 032.56, 76.555, '0101010001'),
