@@ -1,5 +1,6 @@
 --CONSULTA SIMPLES
--- 1. Encontre todos os satélites que estão conectados a uma central ‘x’. 
+-- 1. Encontre todos os satélites que estão conectados a uma central ‘x’. Vamos considerar que a central 'x' está localizada na cidade de São Carlos.
+SELECT * FROM CENTRAL WHERE cidade = 'São Carlos';
 
 -- 2. Encontre todas as centrais que realizam ‘pesquisa’.
 SELECT * FROM CENTRAL WHERE tipotrabalho = 'Central de Pesquisa';
@@ -10,7 +11,7 @@ SELECT * FROM SATELITE WHERE datalancamento < '01-01-2010';
 -- 4. Encontre todas as chaves de criptografia dos satélites de ‘comunicação’.
 SELECT chaveCripto FROM SATELITECOMUNICACAO;
 
--- 5. Encontre todos os funcionários da central ‘x’.
+-- 5. Encontre todos os funcionários da central ‘x’. Vamos considerar que a central 'x' está localizada na cidade de São Carlos.
 
 --CONSULTAS COMPLEXAS
 -- 1. Encontre o nome e o número de identificação de todos os satélites de observação que foram lançados nos últimos 5 anos.
