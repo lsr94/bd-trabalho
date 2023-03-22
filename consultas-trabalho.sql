@@ -1,3 +1,4 @@
+set timezone='America/Sao_Paulo';
 --///////////////////////////////////////////////////////////////////////////
 -- CONSULTA SIMPLES
 --///////////////////////////////////////////////////////////////////////////
@@ -22,7 +23,9 @@ where f.idfuncionario = pe.idfuncionario AND
     
 -- Criadas pelo grupo --
 -- 6. Liste o id do satélite, id do funcionário e horário das consultas que foram realizadas na parte noturna (18h até 23:59:59)
-SELECT idsatelite, idfuncionario, horario FROM CONSULTA WHERE horario BETWEEN '18:00:00' AND '23:59:59';
+SELECT idsatelite, idfuncionario, data_consulta 
+FROM CONSULTA 
+WHERE to_char(data_consulta,'HH24:MI:SS') BETWEEN '18:00:00' AND '23:59:59';
 
 -- 7. Liste o nome de todos os funcionários que trabalham na central localizada em Campinas
 SELECT nome FROM FUNCIONARIO, CENTRAL, PERTENCE WHERE cidade = 'Campinas' AND  funcionario.idfuncionario = pertence.idfuncionario AND 
@@ -30,7 +33,7 @@ pertence.idcentral = central.idcentral;
 
 -- 8. Liste o nome dos funcionários e a central que ele pertence que realizaram consultas no ano de 2022 ordenado pelo nome dos funcionários de forma decrescente
 SELECT funcionario.nome, central.tipotrabalho FROM FUNCIONARIO, CENTRAL, CONSULTA, SATELITE WHERE
-consulta.data BETWEEN '01-01-2022' AND '31-12-2022' AND funcionario.idfuncionario = consulta.idfuncionario AND
+consulta.data_consulta BETWEEN '2022-01-01' AND '2022-12-31' AND funcionario.idfuncionario = consulta.idfuncionario AND
 consulta.idsatelite = satelite.idsatelite AND central.idcentral = satelite.idcentral ORDER BY funcionario.nome DESC;
 
 -- 9. Liste as velocidades de UpLink e DownLink e o id do modem correspondente
@@ -57,17 +60,25 @@ SELECT s.idsatelite, s.nome from satelite s, satelitecomunicacao sc, antena an, 
     
 
 -- 3. Encontre o nome e a posição espacial de todos os satélites de observação que registraram uma temperatura acima de 30 graus Celsius nas últimas 24 horas.
-SELECT DISTINCT(satelite.nome), localizacao.coordx, localizacao.coordy, localizacao.coordz
-FROM SATELITE, LEITURA, LOCALIZACAO WHERE leitura.temperaturaC > 30 AND
-satelite.idsatelite = leitura.idsateliteobsm AND satelite.idsatelite = localizacao.idsatelite;
+SELECT sat.nome, loc.coordx, loc.coordy, loc.coordz
+FROM SATELITE sat, LEITURA le, LOCALIZACAO loc
+WHERE le.temperaturaC > 30 AND
+sat.idsatelite = le.idsateliteobsm AND 
+sat.idsatelite = loc.idsatelite AND
+le.data_leitura >= NOW() - '1 day'::INTERVAL AND
+loc.data_loc = (SELECT MAX(l.data_loc) FROM localizacao l WHERE l.idsatelite = sat.idsatelite);
 
+--select TIMESTAMP '2023-03-22 15:15:02-03' > NOW() - '1 day'::INTERVAL
 -- Criadas pelo grupo: --
 -- 4. Liste a quantidade de consultas que foram realizadas pela central localizada em São Carlos 
 SELECT COUNT(consulta.idsatelite) AS qntd_consultas FROM CONSULTA, CENTRAL, SATELITE WHERE central.cidade = 'São Carlos' AND 
 consulta.idsatelite = satelite.idsatelite AND central.idcentral = satelite.idcentral;
 
--- 5. Liste o id do funcionário, nome e quantidade de funcionários que trabalham no Centro de Pesquisa e no Centro de Monitoramento
-SELECT central.tipotrabalho, COUNT(central.idcentral) AS qntd_funcionario FROM CENTRAL GROUP BY (central.tipotrabalho);
+-- 5. Liste a quantidade de funcionários que trabalham em cada tipo de Central
+SELECT ce.tipotrabalho, COUNT(pe.idfuncionario) AS qntd_funcionario 
+FROM CENTRAL ce, pertence pe
+WHERE pe.idcentral = ce.idcentral
+GROUP BY (ce.tipotrabalho);
 
 -- 6. Liste o nome e id do funcionário que realizou uma consulta no qual o satélite seja de observação e metereologia que tem o maior raio de leitura
 SELECT funcionario.idfuncionario, funcionario.nome FROM FUNCIONARIO, CONSULTA, SATELITEOBSMET, SATELITE
