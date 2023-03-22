@@ -109,15 +109,15 @@ CREATE TABLE CONECTA(
 );
 
 --INSERTS:
-INSERT INTO CENTRAL(idCentral, cidade, tipoTrabalho, qteFuncionarios) 
-    VALUES  ('1','São Carlos','Central de Pesquisa','2'),
-            ('2','Araraquara','Central de Monitoramento','4'),
-            ('3','Ribeirão Preto','Central de Monitoramento','6'),
-            ('4','Campinas','Central de Pesquisa','8'),
-            ('5','São Paulo','Central de Pesquisa','10'),
-            ('6','Rio de Janeiro','Central de Monitoramento','12'), 
-            ('7','Brotas','Central de Pesquisa','14'),
-            ('8','Minas Gerais','Central de Monitoramento','6');
+INSERT INTO CENTRAL(idCentral, cidade, tipoTrabalho, qntdeFuncionarios) 
+    VALUES  (1, 'São Carlos', 'Central de Pesquisa', 3),
+            (2, 'São Paulo', 'Central de Monitoramento', 1),
+            (3, 'Rio de Janeiro', 'Central de Monitoramento', 1),
+            (4, 'Campinas', 'Central de Pesquisa', 1),
+            (5, 'Araraquara', 'Central de Pesquisa', 0),
+            (6, 'Ribeirão Preto', 'Central de Monitoramento', 0), 
+            (7, 'Brotas', 'Central de Pesquisa', 0),
+            (8, 'Minas Gerais', 'Central de Monitoramento', 0);
 
 INSERT INTO SATELITE
     VALUES  (735, 4, 'Regulus', '03/05/2021'),
@@ -150,14 +150,14 @@ INSERT INTO LOCALIZACAO
             (735, '03/21/2023', '09:48:20', 26.654, -13.984, 100.000);  
 
 INSERT INTO FUNCIONARIO(idFuncionario, nome) 
-    VALUES  ('1','Alberto Braga'),
-            ('2','Carlos Dollabela'),
-            ('3','Elisa Fernandes'),
-            ('4','Garibalda Helena'),
-            ('5','Ivone Juarez'),
-            ('6','Katia Lima'), 
-            ('7','Maria de Nobrega'),
-            ('8','Olivia de Paula');
+    VALUES  ('1', 'Alberto Braga'),
+            ('2', 'Carlos Dollabela'),
+            ('3', 'Elisa Fernandes'),
+            ('4', 'Garibalda Helena'),
+            ('5', 'Ivone Juarez'),
+            ('6', 'Katia Lima'), 
+            ('7', 'Maria de Nobrega'),
+            ('8', 'Olivia de Paula');
 
 INSERT INTO PERTENCE (idcentral, idfuncionario)
     VALUES  (3, 1),
