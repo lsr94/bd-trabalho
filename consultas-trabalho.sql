@@ -13,6 +13,16 @@ SELECT chaveCripto FROM SATELITECOMUNICACAO;
 
 -- 5. Encontre todos os funcionários da central ‘x’. Vamos considerar que a central 'x' está localizada na cidade de São Carlos.
 
+-- 6. 
+
+-- 7.
+
+-- 8.
+
+-- 9.
+
+-- 10.
+
 --CONSULTAS COMPLEXAS
 -- 1. Encontre o nome e o número de identificação de todos os satélites de observação que foram lançados nos últimos 5 anos.
 SELECT sateliteobsmet.idsatelite, satelite.nome FROM SATELITE, SATELITEOBSMET WHERE satelite.datalancamento BETWEEN '03-22-2018' AND '03-22-2023' AND 
@@ -22,3 +32,9 @@ satelite.idsatelite = sateliteobsmet.idsatelite;
 
 
 -- 3. Encontre o nome e a posição espacial de todos os satélites de observação que registraram uma temperatura acima de 30 graus Celsius nas últimas 24 horas.
+
+-- 4.
+
+-- 5.
+ 
+-- 6.
