@@ -46,7 +46,7 @@ SELECT * FROM SATELITEOBSMET WHERE raioleiturakm > 1000;
 -- CONSULTAS COMPLEXAS
 --///////////////////////////////////////////////////////////////////////////
 -- 1. Encontre o nome e o número de identificação de todos os satélites de observação que foram lançados nos últimos 5 anos.
-SELECT sateliteobsmet.idsatelite, satelite.nome FROM SATELITE, SATELITEOBSMET WHERE satelite.datalancamento BETWEEN '03-22-2018' AND '03-22-2023' AND 
+SELECT sateliteobsmet.idsatelite, satelite.nome FROM SATELITE, SATELITEOBSMET WHERE satelite.datalancamento BETWEEN '03-22-2018' AND NOW() AND 
 satelite.idsatelite = sateliteobsmet.idsatelite;
 
 -- 2. Encontre o nome e o número de identificação de todos os satélites de comunicação que possuem uma velocidade de DownLink maior que 100 Mbps.
@@ -68,7 +68,6 @@ sat.idsatelite = loc.idsatelite AND
 le.data_leitura >= NOW() - '1 day'::INTERVAL AND
 loc.data_loc = (SELECT MAX(l.data_loc) FROM localizacao l WHERE l.idsatelite = sat.idsatelite);
 
---select TIMESTAMP '2023-03-22 15:15:02-03' > NOW() - '1 day'::INTERVAL
 -- Criadas pelo grupo: --
 -- 4. Liste a quantidade de consultas que foram realizadas pela central localizada em São Carlos 
 SELECT COUNT(consulta.idsatelite) AS qntd_consultas FROM CONSULTA, CENTRAL, SATELITE WHERE central.cidade = 'São Carlos' AND 
