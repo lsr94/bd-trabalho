@@ -4,7 +4,7 @@ set timezone='America/Sao_Paulo';
 --///////////////////////////////////////////////////////////////////////////
 -- Solicitadas pelos clientes --
 -- 1. Encontre todos os satélites que estão conectados a uma central ‘x’. Vamos considerar que a central 'x' está localizada na cidade de São Carlos.
-SELECT * FROM CENTRAL WHERE cidade = 'São Carlos';
+SELECT sat.idsatelite, sat.nome, sat.datalancamento FROM CENTRAL ce, SATELITE sat WHERE ce.cidade = 'São Carlos' and sat.idcentral=ce.idcentral;
 
 -- 2. Encontre todas as centrais que realizam ‘pesquisa’.
 SELECT * FROM CENTRAL WHERE tipotrabalho = 'Central de Pesquisa';
